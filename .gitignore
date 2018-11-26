@@ -1,6 +1,7 @@
 config/acme.json
 config/peatio/management_api_v1.yml
 config/toolbox.yaml
+config/barong/*
 config/traefik.toml
 config/*.env
 config/secrets/*

@@ -1,4 +1,5 @@
 require 'openssl'
+require 'securerandom'
 
 TEMPLATE_PATH = Pathname.new('./config/templates')
 TEMPLATE_FILES = Rake::FileList["#{TEMPLATE_PATH}/**/*.erb"]
@@ -15,6 +16,18 @@ namespace :render do
 
   def openkey
     return OpenSSL::PKey::RSA.new(File.read(BARONG_KEY), '')
+  end
+
+  def safe_password
+    res = ''
+
+    loop do
+      res = SecureRandom.base64(16)
+      # Check if the password fits all security requirements(one lowercase, one capital, one number)
+      break if /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*/.match?(res)
+    end
+
+    res
   end
 
   def output(file)
