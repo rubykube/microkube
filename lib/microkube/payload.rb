@@ -1,35 +1,33 @@
 require 'jwt'
 
-class PayloadError < StandardError
-end
-
 module Microkube
+
+  class Error < StandardError
+  end
+
   class Payload
     def initialize(params)
-      @jwt_secret = params[:secret]
-      @jwt_exp = params[:expire]
-      raise PayloadError.new unless @jwt_secret
-      @jwt_exp = 600 unless @jwt_exp
-    end
+      @secret = params[:secret]
+      @expire = params[:expire] || 600
 
-    def encode(token)
-      JWT.encode token, @jwt_secret, 'HS256'
+      raise Microkube::Error.new unless @secret
+      raise Microkube::Error.new unless @expire > 0
     end
 
     def generate!(params)
-      raise PayloadError.new unless params[:service]
-      raise PayloadError.new unless params[:tag]
+      raise Microkube::Error.new unless params[:service]
+      raise Microkube::Error.new unless params[:image]
 
       token = params.merge({
         'iat': Time.now.to_i,
-        'exp': (Time.now + @jwt_exp).to_i
+        'exp': (Time.now + @expire).to_i
       })
 
-      encode token
+      JWT.encode token, @secret, 'HS256'
     end
 
     def decode!(token)
-      JWT.decode(token, @jwt_secret, true, {
+      JWT.decode(token, @secret, true, {
         algorithm: 'HS256'
       }).first
     end
