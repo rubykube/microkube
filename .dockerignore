@@ -1,0 +1,13 @@
+Dockerfile
+.git
+.gitignore
+.rspec
+bin
+docs
+LICENSE
+Rakefile
+README.md
+scripts
+spec
+vendor
+config

@@ -5,7 +5,7 @@ require_relative 'payload'
 services = %w[barong peatio frontend tower]
 
 secret = ENV['WEBHOOK_JWT_SECRET']
-raise 'WEBHOOK_JWT_SECRET is not set' unless secret
+raise 'WEBHOOK_JWT_SECRET is not set' if secret.to_s.empty?
 decoder = Microkube::Payload.new(secret: secret)
 
 before do
