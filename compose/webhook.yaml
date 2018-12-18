@@ -3,8 +3,6 @@ version: '3.6'
 services:
   webhook:
     image: webhook:latest
-    expose:
-      - "4567"
     ports:
       - "4567:4567"
     environment:

@@ -127,3 +127,11 @@ All the components with external endpoints are accessible by their respective su
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/rubykube/microkube/master/bin/install)"
 ```
+
+### Webhook server
+    Before running a webhook server in container run:
+
+```
+export DOCKER_GROUP_ID=`getent group docker | cut -d: -f3`
+```
+    It will add user `app` from container to `docker` group.
