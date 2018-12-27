@@ -16,7 +16,10 @@ services:
       - ../config/peatio/seed:/opt/peatio/config/seed
       - ../config/peatio/management_api_v1.yml:/opt/peatio/config/management_api_v1.yml
       - ../config/peatio/plugins.yml:/opt/peatio/config/plugins.yml
-    labels: {}
+    labels: 
+      traefik.enable: true
+      traefik.frontend.rule: "PathPrefix:/;Host:peatio.${APP_DOMAIN}"
+      traefik.port: 8000
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
@@ -25,6 +28,10 @@ services:
       - ../config/barong.env
     ports:
       - "8001:8001"
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "PathPrefix:/;Host:barong.${APP_DOMAIN}"
+      traefik.port: 8001
     volumes:
       - ../config/secrets:/secrets:ro
       - ../config/barong/seeds.yml:/home/app/config/seeds.yml
