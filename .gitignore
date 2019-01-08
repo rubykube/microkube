@@ -4,6 +4,7 @@ config/peatio/management_api_v1.yml
 config/toolbox.yaml
 config/traefik.toml
 config/*.env
+config/env.js
 config/secrets/*
 !config/secrets/.gitkeep
 vendor/
