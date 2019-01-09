@@ -11,7 +11,7 @@ services:
       traefik.port: 3000
 
   tower:
-    image: quay.io/openware/wio:0.1.0
+    image: "${FRONTEND_IMAGE}"
     user: "${UID}:${GID}"
     command: "-d /home/app/build -s 1"
     volumes:
