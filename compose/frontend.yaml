@@ -11,7 +11,7 @@ services:
       traefik.port: 3000
 
   tower:
-    image: "${FRONTEND_IMAGE}"
+    image: "${TOWER_IMAGE}"
     user: "${UID}:${GID}"
     command: "-d /home/app/build -s 1"
     volumes:
