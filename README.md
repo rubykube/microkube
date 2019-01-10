@@ -18,12 +18,6 @@ bundle
 rake -T
 ```
 
-### Clone default Frontend
-
-```
-rake vendor:clone
-```
-
 ### Build tower
 
 ```
