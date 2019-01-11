@@ -1,0 +1,24 @@
+version: '3.6'
+
+services:
+  frontend:
+    build:
+      context: ../vendor/frontend
+    volumes:
+      - ../vendor/frontend/src:/home/node/src
+      - ../config/frontend/frontend.js:/home/node/public/env.js
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host: www.${APP_DOMAIN}; PathPrefix: /"
+      traefik.port: 3000
+
+  tower:
+    build:
+      context: ../vendor/tower
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../config/frontend/tower.js:/home/node/env.js
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host: www.${APP_DOMAIN}; PathPrefix: /tower"
+      traefik.port: 3000
