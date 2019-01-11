@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  proxy:
+    image: traefik:1.7.6
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../config/traefik.toml:/etc/traefik/traefik.toml:ro
+      - ../config/acme.json:/acme.json
+    networks:
+      default:
+        aliases:
+          - www.${APP_DOMAIN}
+          - peatio.${APP_DOMAIN}
+          - ws.ranger.${APP_DOMAIN}
+          - eth.${APP_DOMAIN}
+          - tower.${APP_DOMAIN}
+          - monitor.${APP_DOMAIN}
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: 'Host: monitor.${APP_DOMAIN}'
+      traefik.port: 8080

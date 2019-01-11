@@ -1,0 +1,40 @@
+version: '3.6'
+
+x-daemon: &peatio-daemon
+  image:
+  restart: always
+  depends_on:
+    - peatio
+    - db
+    - redis
+    - rabbitmq
+    - ranger
+  env_file:
+    - ../config/peatio.env
+  volumes:
+    - ../config/peatio:/opt/peatio/config:ro
+
+<%- daemons = %w[withdraw_audit blockchain global_state k] -%>
+<%- amqp_daemons = %w[deposit_collection deposit_collection_fees deposit_coin_address slave_book market_ticker matching order_processor trade_executor withdraw_coin pusher_market pusher_member] -%>
+services:
+  ranger:
+    image: rubykube/peatio:1.9.1-rc.20
+    depends_on:
+      - rabbitmq
+    env_file:
+      - ../config/ranger.env
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: 'Host: ws.ranger.${APP_DOMAIN}'
+      traefik.port: 8080
+    command: bash -c "bundle exec peatio service start ranger"
+<%- daemons.each do |daemon| %>
+  <%= daemon %>:
+    << : *peatio-daemon
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/<%= daemon %>.rb"
+<%- end -%>
+<%- amqp_daemons.each do |daemon| %>
+  <%= daemon %>:
+    << : *peatio-daemon
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb <%= daemon %>"
+<%- end -%>

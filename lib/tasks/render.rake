@@ -21,7 +21,12 @@ namespace :render do
   def output(file)
     path = Pathname.new(file)
     outfile = path.relative_path_from(TEMPLATE_PATH).sub('.erb', '')
-    return File.join('config', outfile)
+
+    if file.start_with?('./templates/compose')
+      outfile
+    else
+      File.join('config', outfile)
+    end
   end
 
   def render(source, target)

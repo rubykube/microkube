@@ -1,0 +1,30 @@
+version: '3.6'
+
+services:
+  peatio:
+    image: "${PEATIO_IMAGE}"
+    depends_on:
+      - proxy
+      - db
+      - redis
+      - rabbitmq
+    env_file:
+      - ../config/peatio.env
+    expose:
+      - "8000"
+    volumes:
+      - ../config/peatio/seed:/opt/peatio/config/seed
+      - ../config/peatio/management_api_v1.yml:/opt/peatio/config/management_api_v1.yml
+      - ../config/peatio/plugins.yml:/opt/peatio/config/plugins.yml
+    labels: {}
+    command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
+
+  barong:
+    image: "${BARONG_IMAGE}"
+    env_file:
+      - ../config/barong.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ../config/secrets:/secrets:ro
+      - ../config/barong/seeds.yml:/home/app/config/seeds.yml
