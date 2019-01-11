@@ -126,7 +126,7 @@ namespace :service do
   end
 
   desc 'Run the frontend application'
-  task :frontend do |task, args|
+  task :frontend, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
@@ -143,7 +143,7 @@ namespace :service do
   end
 
   desc 'Run the tower application'
-  task :tower do |task, args|
+  task :tower, [:command]  do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
