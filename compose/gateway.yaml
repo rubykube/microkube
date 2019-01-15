@@ -13,4 +13,8 @@ services:
     labels:
       traefik.enable: true
       traefik.frontend.rule: "PathPrefix:/api/, /admin, /assets/;Host:www.app.local"
-      traefik.port: 80
+      traefik.default.port: 80
+      traefik.default.protocol: http
+      traefik.wss.frontend.rule: "Host:www.app.local"
+      traefik.wss.protocol: ws
+      traefik.wss.port: 80
