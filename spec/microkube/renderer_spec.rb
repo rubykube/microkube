@@ -1,7 +1,7 @@
 require 'microkube/renderer'
 
 describe Microkube::Renderer do
-  let(:renderer) { Microkube::Renderer.new }
+  let(:renderer) { Microkube::Renderer.new('./config/app.yml', './templates', '.') }
   let(:fake_erb_result) { { 'data' => 'this is fake data'} }
   let(:config) do
     {

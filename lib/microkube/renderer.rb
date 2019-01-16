@@ -6,22 +6,25 @@ require 'base64'
 module Microkube
   # Renderer is class for rendering Microkube templates.
   class Renderer
-    TEMPLATE_PATH  = Pathname.new('./templates')
-
     JWT_KEY = 'config/secrets/barong.key'.freeze
     SSH_KEY = 'config/secrets/kite.key'.freeze
+
+    def initialize(config_path, template_path, output_path)
+      @template_path = Pathname.new(template_path)
+      @output_path   = Pathname.new(output_path)
+      @config_path   = config_path
+    end
 
     def render
       render_keys
 
-      Dir.glob("#{TEMPLATE_PATH}/**/*.erb").each do |file|
+      Dir.glob("#{@template_path}/**/*.erb").each do |file|
         render_file(file, template_name(file))
       end
     end
 
+    # TODO: Exclude vars to special controller.
     def render_file(file, out_file)
-      puts "Rendering #{out_file}"
-
       @config ||= config
       @barong_key ||= OpenSSL::PKey::RSA.new(File.read(JWT_KEY), '')
       @jwt_private_key ||= Base64.urlsafe_encode64(@barong_key.to_pem)
@@ -33,9 +36,8 @@ module Microkube
 
     def template_name(file)
       path = Pathname.new(file)
-      out_path = path.relative_path_from(TEMPLATE_PATH).sub('.erb', '')
-
-      File.join('.', out_path)
+      out_path = path.relative_path_from(@template_path).sub('.erb', '')
+      File.join(@output_path, out_path)
     end
 
     def render_keys
@@ -50,7 +52,7 @@ module Microkube
     end
 
     def config
-      YAML.load_file('./config/app.yml')
+      YAML.load_file(@config_path)
     end
   end
 end

@@ -181,9 +181,7 @@ namespace :service do
     args.with_defaults(:command => 'start')
 
     def start
-      renderer = Microkube::Renderer.new
-      renderer.render
-
+      Rake::Task["render:config"].invoke('start')
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:backend"].invoke('start')
       Rake::Task["service:setup"].invoke('start')

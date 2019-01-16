@@ -54,7 +54,7 @@ class Webhook < Sinatra::Base
     if $?.success?
       update_config(service, image)
 
-      renderer = Microkube::Renderer.new
+      renderer = Microkube::Renderer.new('./config/app.yml', './templates', '.')
       renderer.render
 
       system "docker-compose up -Vd #{service}"
