@@ -19,10 +19,7 @@ curl -sSL https://get.rvm.io | bash -s stable
 rvm install 2.5.3
 rvm use 2.5.3
 gem install bundler
-gem install eventmachine -v '1.2.7' --source 'https://rubygems.org/'
-sudo apt-get -y -f install mysql-client mysql-server 
-sudo apt-get install ruby-mysql2 mariadb default-libmysqlclient-dev
-sudo systemctl stop mariadb 
+sudo apt-get install libmysqlclient-dev ruby-mysql2 mariadb
 
 # Git clone Microkube
 cd $HOME
@@ -33,17 +30,7 @@ cd microkube
 bundle
 rake vendor:clone
 
-# Interactive configuration of Microkube
-while true; do
-    read -p "Do you want to change app domain?[y/n]" yn
-    case $yn in
-        [Yy]* ) read -r -p "Please enter domain name: " inputline;
-                sed -i -e "s/app.local/$inputline/g" config/app.yml
-                break;;
-        [Nn]* ) break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+# TODO Interactive configuration of Microkube
 rake render:config
 rake service:all
 rake service:daemons
