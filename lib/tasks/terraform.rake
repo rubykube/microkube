@@ -1,16 +1,16 @@
 namespace :terraform do
   desc 'Initialize the Terraform configuration'
   task :init do
-    sh 'terraform init ./terraform'
+    Dir.chdir('terraform') { sh 'terraform init' }
   end
 
   desc 'Apply the Terraform configuration'
-  task :apply => 'render:config' do
-    sh 'terraform apply -var-file ./terraform/instance.tfvars ./terraform'
+  task :apply => ['render:config', :init] do
+    Dir.chdir('terraform') { sh 'terraform apply' }
   end
 
   desc 'Destroy the Terraform infrastructure'
   task :destroy do
-    sh 'terraform destroy -var-file ./terraform/instance.tfvars ./terraform'
+    Dir.chdir('terraform') { sh 'terraform destroy' }
   end
 end

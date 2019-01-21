@@ -13,4 +13,5 @@ vendor/
 !vendor/.gitkeep
 
 .terraform/
+*.tfvars
 terraform.tfstate*
