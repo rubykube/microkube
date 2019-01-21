@@ -40,7 +40,7 @@ EOS
 
 install_microkube() {
   sudo -u app bash <<EOS
-  cd $HOME
+  cd /home/app
   source /home/app/.rvm/scripts/rvm
   rvm install --quiet-curl 2.5.3
   rvm use --default 2.5.3
