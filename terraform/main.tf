@@ -20,6 +20,8 @@ resource "google_compute_instance" "microkube" {
   boot_disk {
     initialize_params {
       image = "${var.image}"
+      type = "pd-ssd"
+      size = 80
     }
   }
 
@@ -33,11 +35,23 @@ resource "google_compute_instance" "microkube" {
 
   tags = ["allow-webhook"]
 
-  metadata_startup_script = "curl https://raw.githubusercontent.com/rubykube/microkube/ed6277cf4c8636dd2450f25821f4aeaf5fac1d2e/docs/install.sh | bash"
+  metadata {
+    sshKeys = "${var.ssh_user}:${file("${var.ssh_public_key}")}"
+  }
+
+  provisioner "remote-exec" {
+    script = "./bin/install.sh"
+
+    connection {
+      type        = "ssh"
+      user        = "${var.ssh_user}"
+      private_key = "${file("${var.ssh_private_key}")}"
+    }
+  }
 }
 
 resource "google_compute_firewall" "microkube" {
-  name    = "microkube-firewall"
+  name    = "microkube-firewall-${random_id.microkube.hex}"
   network = "${google_compute_network.microkube.name}"
 
   allow {
@@ -57,4 +71,3 @@ resource "google_compute_address" "microkube" {
 resource "google_compute_network" "microkube" {
   name = "microkube-network-${random_id.microkube.hex}"
 }
-
