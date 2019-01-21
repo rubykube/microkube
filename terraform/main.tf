@@ -21,7 +21,7 @@ resource "google_compute_instance" "microkube" {
     initialize_params {
       image = "${var.image}"
       type = "pd-ssd"
-      size = 80
+      size = 120
     }
   }
 
