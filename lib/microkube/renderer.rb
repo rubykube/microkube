@@ -9,10 +9,15 @@ module Microkube
     JWT_KEY = 'config/secrets/barong.key'.freeze
     SSH_KEY = 'config/secrets/kite.key'.freeze
 
-    def initialize(config_path, template_path, output_path)
+    def initialize(config_path, template_path, output_path, keys)
       @template_path = Pathname.new(template_path)
       @output_path   = Pathname.new(output_path)
       @config_path   = config_path
+
+      keys.each do |key|
+        name = File.basename(key).sub('.', '_')
+        instance_variable_set("@#{name}", OpenSSL::PKey::RSA.new(File.read(key), ''))
+      end
     end
 
     def render
@@ -25,12 +30,15 @@ module Microkube
 
     # TODO: Exclude vars to special controller.
     def render_file(file, out_file)
-      @config ||= config
-      @barong_key ||= OpenSSL::PKey::RSA.new(File.read(JWT_KEY), '')
-      @jwt_private_key ||= Base64.urlsafe_encode64(@barong_key.to_pem)
-      @jwt_public_key  ||= Base64.urlsafe_encode64(@barong_key.public_key.to_pem)
 
-      result = ERB.new(File.read(file), 0, '-').result(binding)
+      data = {
+        config: config,
+        barong_key: @barong_key,
+        jwt_private_key: Base64.urlsafe_encode64(@barong_key.to_pem),
+        jwt_public_key: Base64.urlsafe_encode64(@barong_key.public_key.to_pem)
+      }
+
+      result = ERB.new(File.read(file), 0, '-').result_with_hash(data)
       File.write(out_file, result)
     end
 
