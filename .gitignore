@@ -11,3 +11,6 @@ config/peatio/seed/*
 !config/peatio/seed/.gitkeep
 vendor/
 !vendor/.gitkeep
+
+.terraform/
+terraform.tfstate*
