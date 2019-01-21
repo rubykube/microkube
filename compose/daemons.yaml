@@ -87,10 +87,10 @@ services:
       traefik.port: 8080
     command: bash -c "bundle exec peatio service start ranger"
 
-  pigeon:
+  postmaster:
     image: "quay.io/shal/pigeon:v0.0.2"
     depends_on:
       - rabbitmq
     env_file:
-      - ../config/pigeon.env
+      - ../config/postmaster.env
 
