@@ -11,6 +11,7 @@ module Microkube
 
     JWT_KEY = 'config/secrets/barong.key'.freeze
     SSH_KEY = 'config/secrets/kite.key'.freeze
+    TOOLBOX_KEY = 'config/secrets/toolbox.key'.freeze
 
     def render(overwrite = false)
       render_keys
@@ -30,6 +31,10 @@ module Microkube
       @jwt_private_key ||= Base64.urlsafe_encode64(@barong_key.to_pem)
       @jwt_public_key  ||= Base64.urlsafe_encode64(@barong_key.public_key.to_pem)
 
+      @toolbox_key ||= OpenSSL::PKey::RSA.new(File.read(TOOLBOX_KEY), '')
+      @toolbox_private_key ||= Base64.urlsafe_encode64(@toolbox_key.to_pem)
+      @toolbox_public_key  ||= Base64.urlsafe_encode64(@toolbox_key.public_key.to_pem)
+
       result = ERB.new(File.read(file), 0, '-').result(binding)
       File.write(out_file, result)
     end
@@ -44,6 +49,7 @@ module Microkube
     def render_keys
       generate_key(JWT_KEY)
       generate_key(SSH_KEY, public: true)
+      generate_key(TOOLBOX_KEY)
     end
 
     def generate_key(filename, public: false)

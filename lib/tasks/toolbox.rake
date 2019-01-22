@@ -1,7 +1,7 @@
 namespace :toolbox do
   desc 'Run the toolbox'
   task :run do
-    run_cmd = %w[docker-compose run --rm toolbox run]
+    run_cmd = %w[docker-compose run --rm toolbox bin/stress_trading]
 
     YAML.safe_load(File.read('config/toolbox.yaml'))
         .transform_keys { |k| '--' << k }

@@ -9,6 +9,9 @@ keychain:
   barong:
     algorithm: RS256
     value: <%= @jwt_public_key %>
+  toolbox:
+    algorithm: RS256
+    value: <%= @toolbox_public_key %>
 #
 # Keeps all the JWT verification options.
 # The documentation is available at https://github.com/jwt/ruby-jwt#support-for-reserved-claim-names.
@@ -30,17 +33,17 @@ jwt: {}
 #
 scopes:
   read_deposits:
-    permitted_signers: ['barong']
-    mandatory_signers: ['barong']
+    permitted_signers: ['barong', 'toolbox']
+    mandatory_signers: ['barong', 'toolbox']
   write_deposits:
-    permitted_signers: ['barong']
-    mandatory_signers: ['barong']
+    permitted_signers: ['barong', 'toolbox']
+    mandatory_signers: ['barong', 'toolbox']
   read_withdraws:
-    permitted_signers: ['barong']
-    mandatory_signers: ['barong']
+    permitted_signers: ['barong', 'toolbox']
+    mandatory_signers: ['barong', 'toolbox']
   write_withdraws:
-    permitted_signers: ['barong']
-    mandatory_signers: ['barong']
+    permitted_signers: ['barong', 'toolbox']
+    mandatory_signers: ['barong', 'toolbox']
   read_accounts:
-    permitted_signers: ['barong']
-    mandatory_signers: ['barong']
+    permitted_signers: ['barong', 'toolbox']
+    mandatory_signers: ['barong', 'toolbox']

@@ -7,3 +7,10 @@ services:
       traefik.enable: true
       traefik.frontend.rule: 'Host: mail.<%= @config['app']['domain'] %>'
       traefik.port: 1080
+
+  toolbox:
+    build:
+      context: ../test/toolbox
+    depends_on:
+      - peatio
+      - barong

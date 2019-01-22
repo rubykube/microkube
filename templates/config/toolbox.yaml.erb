@@ -1,6 +1,7 @@
 # For other configuration options, see https://github.com/rubykube/toolbox/blob/master/bin/stress_trading
 
-root-url: http://www.wb.local
+# root-url: http://<%= @config['app']['domain'] %>/
+root-url: http://peatio:8000/
 
 currencies: usd,eur
 markets: eurusd
@@ -10,4 +11,4 @@ traders: 10
 threads: 5
 management-api-v1-jwt-signer: toolbox
 api-v2-jwt-key: "<%= @jwt_private_key %>"
-management-api-v1-jwt-key: "<%= @toolbox_jwt_private_key %>"
+management-api-v1-jwt-key: "<%= @toolbox_private_key %>"
