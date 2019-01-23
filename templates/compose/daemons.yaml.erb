@@ -88,7 +88,7 @@ services:
     command: bash -c "bundle exec peatio service start ranger"
 
   postmaster:
-    image: "<%= @config['images']['postmaster'] %>"
+    image: "<%= config['images']['postmaster'] %>"
     depends_on:
       - rabbitmq
     env_file:

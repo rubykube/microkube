@@ -9,7 +9,6 @@ class BaseRenderer
     @output_path   = Pathname.new(output_path)
     @config_path   = config_path
     @keys          = keys
-  end
 
     keys.each do |key_path|
       key  = OpenSSL::PKey::RSA.generate(2048)
