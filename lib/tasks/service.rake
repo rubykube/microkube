@@ -1,5 +1,6 @@
 namespace :service do
-  ENV['APP_DOMAIN'] = config['app']['domain']
+  # ENV['APP_DOMAIN'] = config['app']['domain']
+  ENV['APP_DOMAIN'] = YAML.load_file('./config/app.yml')['app']['domain']
 
   @switch = Proc.new do |args, start, stop|
     case args.command

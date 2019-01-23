@@ -1,7 +1,7 @@
 require 'microkube/renderer'
 
 describe Microkube::Renderer do
-  let(:renderer) { Microkube::Renderer.new('./config/app.yml', './templates', '.') }
+  let(:renderer) { Microkube::Renderer.new("#{Dir.pwd}/config/app.yml", "#{Dir.pwd}/templates", Dir.pwd) }
   let(:fake_erb_result) { { 'data' => 'this is fake data'} }
   let(:config) do
     {
@@ -34,28 +34,6 @@ describe Microkube::Renderer do
     it 'should load configuration' do
       allow(YAML).to receive(:load_file).and_return(config)
       expect(renderer.config).to eq(config)
-    end
-  end
-
-  describe '.generate_key' do
-    it 'should generate a private RSA key by default' do
-      renderer.generate_key('config/secrets/barong.key')
-      expect(File).to exist('config/secrets/barong.key')
-    end
-
-    it 'should generate a public RSA key in addition when the flag is passed' do
-      renderer.generate_key('config/secrets/kite.key')
-      expect(File).to exist('config/secrets/kite.key')
-      expect(File).to exist('config/secrets/kite.key.pub')
-    end
-  end
-
-  describe '.render_keys' do
-    it 'should create files with private and public RSA keys' do
-      renderer.render_keys
-      expect(File).to exist('config/secrets/barong.key')
-      expect(File).to exist('config/secrets/kite.key')
-      expect(File).to exist('config/secrets/kite.key.pub')
     end
   end
 
