@@ -1,7 +1,7 @@
 require 'microkube/renderer'
 
 describe Microkube::Renderer do
-  let(:renderer) { Microkube::Renderer.new("#{Dir.pwd}/config/app.yml", "#{Dir.pwd}/templates", Dir.pwd) }
+  let(:renderer) { Microkube::Renderer.new("test/app.yml", "#{Dir.pwd}/templates", Dir.pwd) }
   let(:fake_erb_result) { { 'data' => 'this is fake data'} }
   let(:config) do
     {
@@ -25,26 +25,10 @@ describe Microkube::Renderer do
     }
   end
 
-  it 'should load configuration' do
-    allow(YAML).to receive(:load_file).and_return(config)
-    expect(renderer.config).to eq(config)
-  end
-
   describe '.config' do
     it 'should load configuration' do
       allow(YAML).to receive(:load_file).and_return(config)
       expect(renderer.config).to eq(config)
-    end
-  end
-
-  describe '.render_file' do
-    it 'should render file' do
-      expect(renderer).to receive(:config).once
-      expect(ERB).to receive(:new).once.and_call_original
-      expect_any_instance_of(ERB).to receive(:result).once.and_return(fake_erb_result)
-      expect(File).to receive(:write).with('./config/peatio.env', fake_erb_result).once.and_call_original
-
-      renderer.render_file('./templates/config/peatio.env.erb', './config/peatio.env')
     end
   end
 
