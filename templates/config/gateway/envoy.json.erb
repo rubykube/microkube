@@ -217,7 +217,45 @@
                                                                     "name": ":authority"
                                                                 }
                                                             ],
-                                                            "prefix": "/api/v2/ranger"
+                                                            "prefix": "/api/v2/ranger/public"
+                                                        },
+                                                        "per_filter_config": {
+                                                            "envoy.buffer": {
+                                                                "disabled": true
+                                                            }
+                                                        },
+                                                        "route": {
+                                                            "cors": {
+                                                                "allow_methods": "POST, GET, OPTIONS",
+                                                                "allow_origin": [
+                                                                    "*"
+                                                                ],
+                                                                "enabled": true,
+                                                                "max_age": "6400"
+                                                            },
+                                                            "prefix_rewrite": "/",
+                                                            "priority": null,
+                                                            "timeout": "3.000s",
+                                                            "weighted_clusters": {
+                                                                "clusters": [
+                                                                    {
+                                                                        "name": "cluster_ranger_8080",
+                                                                        "weight": 100.0
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "match": {
+                                                            "case_sensitive": true,
+                                                            "headers": [
+                                                                {
+                                                                    "exact_match": "www.<%= @config['app']['domain'] %>",
+                                                                    "name": ":authority"
+                                                                }
+                                                            ],
+                                                            "prefix": "/api/v2/ranger/private"
                                                         },
                                                         "per_filter_config": {
                                                             "envoy.buffer": {
