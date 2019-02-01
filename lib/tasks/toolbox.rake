@@ -9,4 +9,10 @@ namespace :toolbox do
 
     sh *run_cmd
   end
+
+  desc 'Run the toolbox rspec'
+  task :rspec do
+    run_cmd = %w[docker-compose run --rm toolbox bundle exec rspec spec]
+    sh *run_cmd
+  end
 end
