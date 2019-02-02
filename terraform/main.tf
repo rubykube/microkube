@@ -20,7 +20,7 @@ resource "google_compute_instance" "microkube" {
   boot_disk {
     initialize_params {
       image = "${var.image}"
-      type = "pd-ssd"
+      type = "${var.boot_disk_type}"
       size = 120
     }
   }

@@ -42,3 +42,7 @@ variable "image" {
   type = "string"
 }
 
+variable "boot_disk_type" {
+  type = "string"
+  description = "The GCE disk type. Can be either pd-ssd, local-ssd, or pd-standard"
+}
