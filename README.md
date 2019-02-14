@@ -27,8 +27,6 @@ rake service:all
 Insert in file `/etc/hosts`
 ```
 0.0.0.0 www.app.local
-0.0.0.0 peatio.app.local
-0.0.0.0 tower.app.local
 0.0.0.0 monitor.app.local
 ```
 
