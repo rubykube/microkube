@@ -11,6 +11,13 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
 curl -sSL https://get.rvm.io | bash -s stable
 ```
 
+If you run into `no route to host` issues please check these instructions:
+https://github.com/rvm/rvm/issues/4215#issuecomment-435221616
+
+```
+rvm install ruby-2.6.0
+```
+
 ### Bundle install depedencies
 
 ```
@@ -135,6 +142,9 @@ To do this, just follow these simple steps:
   - Have fun using it!
 
 To destroy the provisioned infrastructure, just run `rake terraform:destroy`
+
+### Accessing Terraform Instance
+To access the terraform deployed application, you must have a domain that you can map to with Google Cloud DNS. This domain and subdomain must be entered in app.yaml for proper routing of requests. You can map to the external IP of the VM Compute Instance once it is spun up.
 
 ## Installer tool
 
