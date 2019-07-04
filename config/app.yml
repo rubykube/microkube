@@ -49,6 +49,8 @@ rabbitmq:
   password: "guest"
 peatio:
   secret_key_base: "faiba2shei0Ae5gahCh4aipoh3meyaFi"
+barong:
+  secret_key_base: "64"
 
 sendgrid_api_key: changeme
 arke:
