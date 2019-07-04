@@ -6,12 +6,12 @@ ssl:
   enabled: true
   email: "support@example.com"
 images:
-  peatio: rubykube/peatio:2.0.20-alpha
-  barong: rubykube/barong:2.0.39-alpha
+  peatio: rubykube/peatio:2.2.15
+  barong: rubykube/barong:2.2.20
   frontend: rubykube/mikroapp:0.1.5
-  tower: rubykube/tower:0.1.8
+  tower: rubykube/tower:0.1.17
   postmaster: quay.io/openware/postmaster:0.0.3
-  arke: rubykube/arke:0.1.5
+  arke: rubykube/arke:0.1.9
 vendor:
   frontend: https://github.com/rubykube/mikroapp.git
 storage:
@@ -31,19 +31,53 @@ twilio:
   phone_number: "+15005550000"
   account_sid: "changeme"
   auth_token: "changeme"
+database:
+  host: "db"
+  user: "root"
+  password: "changeme"
+redis:
+  host: "redis"
+  port: "6378"
+vault:
+  host: "vault"
+  port: "8200"
+  token: "changeme"
+rabbitmq:
+  host: "rabbitmq"
+  port: "5672"
+  user: "guest"
+  password: "guest"
+peatio:
+  secret_key_base: "faiba2shei0Ae5gahCh4aipoh3meyaFi"
+
 sendgrid_api_key: changeme
 arke:
   strategy:
-    type: 'copy'
-    pair: 'ETHUSD'
+    type: copy
+    volume_ratio: 0.1
     target:
       driver: rubykube
-      host: 'http://www.app.local'
-      name: John
-      key: changeme
-      secret: changeme
+      market: 'ETHUSD'
+      host: "http://www.app.local"
+      key: ""
+      secret: ""
+      rate_limit: 1
     sources:
+      - driver: bitfaker
+        market: 'tETHUSD'
+        host: "api.bitfinex.com"
+        key: ""
+        secret: ""
+        rate_limit: 0.2
       - driver: bitfinex
-        name: Joe
-        key: changeme
-        secret: changeme
+        market: 'tETHUSD'
+        host: "api.bitfinex.com"
+        key: ""
+        secret: ""
+        rate_limit: 0.2
+      - driver: binance
+        market: 'ETHUSDT'
+        host: "api.binance.com"
+        key: ""
+        secret: ""
+  rate_limit: 0.2
