@@ -1,5 +1,7 @@
 # MicroKube
 
+**Please note, that this project is deprecated and moved to https://github.com/openware/opendax**
+
 > Minimal stack for VM deployment.
 
 ## Getting started
