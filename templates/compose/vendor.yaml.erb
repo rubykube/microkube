@@ -6,6 +6,7 @@ services:
     user: "${UID}:${GID}"
     volumes:
       - ../vendor/frontend:/home/node
+      - ../config/frontend/env.js:/home/node/public/env.js
     command:
       - sh
       - -c
