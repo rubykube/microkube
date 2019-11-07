@@ -141,5 +141,5 @@ To destroy the provisioned infrastructure, just run `rake terraform:destroy`
 ## Installer tool
 
 ```
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/rubykube/microkube/master/bin/install)"
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/rubykube/microkube/master/bin/install.sh)"
 ```
