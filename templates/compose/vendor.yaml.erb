@@ -13,6 +13,8 @@ services:
         cd /home/node
         yarn
         yarn start
+    expose:
+      - '3000'
     labels:
       traefik.enable: true
       traefik.frontend.rule: "PathPrefix:/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
